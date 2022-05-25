@@ -1,0 +1,16 @@
+a { 
+	color: #198754;
+	text-decoration: none;
+  }
+
+a.section-anchor {
+    
+}
+
+.border-green {
+	border-color: #198754 !important;
+}
+
+.text-green:hover {
+	color: #198754 !important;
+}
