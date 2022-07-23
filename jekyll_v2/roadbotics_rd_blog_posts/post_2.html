@@ -19,6 +19,17 @@ color_1: #defcf0
     <br><br>
     Before we get to how each method works, one thing to note is that although the goal is to create a digital representation of objects using surfaces and textures, 3D reconstruction begins with a collection of 3D points in space, known as 3D point clouds. Each of the methods below provides a different way to capture a 3D point cloud of a scene.
   </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-8">
+        <div class="row align-items-center">
+          <video controls>
+            <source src="/assets/images/roadbotics_rd_blog_posts/point_cloud_vs_mesh_1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
   <h2>Basics of the Different Methods</h2>
   <p class="roadbotics-rd-blog-text">
     Now let’s talk about how each method works.
@@ -188,7 +199,7 @@ color_1: #defcf0
   <p class="roadbotics-rd-blog-text">
     Deep neural networks are also capable of these two points: producing high density, colorized reconstructions without the need for special sensors. However, DNNs have their own drawbacks such as the large amount of labeled data required to train a DNN and the black-box nature of neural networks which can make diagnosing errors more difficult.
     <br><br>
-    RoadBotics is not the only company to see potential in SLAM-based 3D reconstruction. There are a number of open-source software packages that implement various SLAM techniques: VisualSFM, OrbSLAM, VinsMONO, OpenMVG, COLMAP, and more. However, these packages tend to work very well under a set of assumptions that have evolved in tandem with the typical use cases for the software, like the examples we discussed earlier in our earlier blog post. These assumptions include that you are capturing an object or a single scene (as opposed to a very long continuous asset, like a sidewalk); that you are willing to accept defects or able to manually correct them after making the reconstruction; and that you’re building a single reconstruction (like the COLMAP reconstruction of central Rome shown above) rather than building many in a scalable process and stitching them together.
+    RoadBotics is not the only company to see potential in SLAM-based 3D reconstruction. There are a number of open-source software packages that implement various SLAM techniques: <a href="http://ccwu.me/vsfm/">VisualSFM</a>, <a href="https://github.com/raulmur/ORB_SLAM2">OrbSLAM</a>, <a href="https://github.com/HKUST-Aerial-Robotics/VINS-Mono">VinsMONO</a>, <a href="https://github.com/openMVG/openMVG">OpenMVG</a>, <a href="https://colmap.github.io/">COLMAP</a>, and more. However, these packages tend to work very well under a set of assumptions that have evolved in tandem with the typical use cases for the software, like the examples we discussed <a href="{% link roadbotics_rd_blog_posts/post_1.html %}">in our earlier blog post</a>. These assumptions include that you are capturing an object or a single scene (as opposed to a very long continuous asset, like a sidewalk); that you are willing to accept defects or able to manually correct them after making the reconstruction; and that you’re building a single reconstruction (like the COLMAP reconstruction of central Rome shown above) rather than building many in a scalable process and stitching them together.
     <br><br>
     None of these assumptions are true for RoadBotics; we emphasize automated, highly-scalable solutions because they are cost-efficient and necessary for our clients with assets at their scale. So while these software packages are useful to us, they don’t get us very far in producing the kinds of reconstructions that will help our clients.
     <br><br>

@@ -15,17 +15,17 @@ a.section-anchor {
 	color: #198754 !important;
 }
 
-p.roadbotics-rd-blog-text {
+.roadbotics-rd-blog-text {
 	font-family: 'Charter', 'Georgia', 'Times New Roman';
 	font-size: 14pt;
 }
 
-p.roadbotics-rd-blog-image-caption {
+.roadbotics-rd-blog-image-caption {
 	font-size: 12pt;
 	font-style: normal;
 }
 
-p.roadbotics-rd-blog-image-source-text {
+.roadbotics-rd-blog-image-source-text {
 	font-size: 8pt;
 	font-style: italic;
 }

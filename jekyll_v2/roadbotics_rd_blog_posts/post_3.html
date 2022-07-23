@@ -1,0 +1,171 @@
+---
+layout: default
+title: "- RoadBotics R&D Blog Post 3"
+color_1: #defcf0
+---
+
+<div class="container p-5">
+  <div class="text-muted">
+    <h5>RoadBotics Research & Development Blog Series</h5>
+    <div class="border-bottom pb-2">Anshul Goyal and Miguel Dickson</div>
+  </div>
+  <h1 class="pt-4">Making SLAM Work, Part 1</h1>
+  <p class="roadbotics-rd-blog-text">
+    So far in our 3D reconstruction series, we’ve covered an <a href="{% link roadbotics_rd_blog_posts/post_1.html %}">introduction to 3D reconstruction</a> and <a href="{% link roadbotics_rd_blog_posts/post_2.html %}">how to create one</a>. Now we’ll show you how we’re making SLAM (one of those methods) work at RoadBotics.
+  </p>
+  <h2>SLAM Outdoor Data Capture Problems</h2>
+  <p class="roadbotics-rd-blog-text">
+    The core algorithm SLAM to reconstruct 3D scenes has been around for decades. However, in order to make SLAM computationally tractable, certain assumptions are used about the real world. Among them are:
+  </p>
+  <ol class="roadbotics-rd-blog-text">
+    <li>
+      objects that appear in several photos look the same no matter the difference in viewpoint of the cameras taking the photos
+    </li>
+    <li>
+      objects in the scene do not move
+    </li>
+  </ol>
+  <p class="roadbotics-rd-blog-text">
+    Obviously, these assumptions are often not true about the outside world. Cars, buildings, pedestrians, etc. do not look the same from the front, side, and back, and certain objects, such as cars and pedestrians, are usually moving when seen outside on the street. But the assumptions above are mathematically necessary to make SLAM possible, and unfortunately, when the assumptions are violated, they can lead to unrecognizable or seemingly impossible 3D reconstructions.
+    <br><br>
+    Let’s look at some examples of these issues and the techniques we’re using to avoid them.
+  </p>
+  <h3>The Distant Points Problem</h3>
+  <p class="roadbotics-rd-blog-text">
+    Consider the following picture of a 3D reconstruction in progress.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-8">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/distance_problem_1.png" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Can you tell what is being represented by this reconstruction? Probably not. Take a look at this next sequence of images. At what point can you make sense of the scene?
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-8">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/distance_problem_2.png" class="img-fluid">
+          <p class="text-center roadbotics-rd-blog-image-caption">
+            1. Zoomed in on the cluster of points in the bottom of the original image.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/distance_problem_3.png" class="img-fluid">
+          <p class="text-center roadbotics-rd-blog-image-caption">
+            2. Zoomed in further.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/distance_problem_4.png" class="img-fluid">
+          <p class="text-center roadbotics-rd-blog-image-caption">
+            3. Zoomed in even further rotated the point cloud to seed the road more clearly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Each picture in this sequence depicts the same underlying reconstruction. In the first image, the cluster of points at the center is the road and trees that you see in the last image. The difference is that the first image contains points that are very far away from the area of interest; the spray of points extending from the central cluster to the top left corner of the image. Each subsequent image has fewer and fewer of these irrelevant points.
+    <br><br>
+    This example illustrates an underlying problem with capturing outdoor scenes: it’s practically impossible to not incidentally capture objects that are very far away, like clouds, skylines, distant buildings, terrain, or trees. Including that data in the reconstruction means it will include objects that are potentially miles away, compared to the scene we’re interested in which is only 100+ feet in front of us.
+    <br><br>
+    To make matters worse, there isn’t a lot of data in the video about those far away objects, so the reconstruction ends up capturing a small amount of inconvenient and mostly useless data, throwing off the scale of the whole scene in the process!
+  </p>
+  <h3>The Moving Objects Problem</h3>
+  <p class="roadbotics-rd-blog-text">
+    Similar to the distant points problem, there’s also a problem with the incidental capture of moving objects.
+    <br><br>
+    Consider the following two sets of pictures. The first is two frames extracted from a video recorded by a dashboard-mounted smartphone. You can see the movement between the frames by the change in position of the camera which moved further down the road, and by the oncoming car which is a bit closer in the second frame.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/moving_objects_problem_1.png" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    This set of pictures is the same as the first set, but with overlaid feature matches detected in the SLAM process. The red circles are potential features (points in the scene that might be easy to identify in multiple pictures), and the ones that have a connecting green line drawn from one picture to the other are where SLAM thinks there is a match: the same thing in one picture to the next.
+    <br><br>
+    Just a side note, there are no features or matches in the top half of the pictures because we excluded that part of the pictures in the data set before doing SLAM feature matching.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/moving_objects_problem_2.png" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    At first, these may appear to be good results. In particular, if you look closely, you might notice parts of the incoming car being marked as features in both images and matched. That makes sense – it’s the same object being detected in both pictures, a good demonstration of the power of the feature matching process. Unfortunately, these features will confuse the results of a SLAM process, because SLAM’s mapping process assumes that the objects it’s matching are not moving.
+    <br><br>
+    As we mentioned earlier, SLAM does this to make triangulating their positions mathematically solvable. For the car in this example, the process will try to figure out what possible camera positions would explain the apparently different positions of the vehicle. The correct explanation is of course that it’s a combination of both the camera moving and the car moving, and so the algorithm triangulates incorrectly. [For a refresher on how the localization part of SLAM works, <a href="{% link roadbotics_rd_blog_posts/post_2.html %}">see our last post</a>.]
+    <br><br>
+    SLAM has a way to automatically exclude moving objects (as well as other anomalies that emerge from violations of its core assumptions) using a sub-algorithm called <a href="https://en.wikipedia.org/wiki/Random_sample_consensus">Random Sample Consensus (RANSAC)</a>. However, as the name suggests, this method uses random sampling, so it does not guarantee that SLAM will always choose the correct set of matches for a reconstruction.
+    <br><br>
+    So how do we deal with the two problems of distant points and moving objects? Can we remove things like moving vehicles or distant buildings from the images before performing a 3D reconstruction?
+    <br><br>
+    Indeed, a version of that solution is what RoadBotics is using. This approach is easy to describe but difficult to do; it requires using deep neural networks for scene understanding, also known as scene segmentation. Fortunately for us, this is an area of expertise we already have from developing neural networks for our current pavement analysis product.
+  </p>
+  <h2>Scene Segmentation</h2>
+  <p class="roadbotics-rd-blog-text">
+    Broadly speaking, a segmentation of an image divides an image into various parts. The kind of segmentation we’re interested in is a pixel-wise annotation of the image data which assigns human-useful labels to each region (i.e. “road”, “person”, “vehicle”). This is called semantic segmentation. The following image is a typical example of a segmented image:
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-8">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/scene_segmentation_1.png" class="img-fluid">
+          <p class="text-center roadbotics-rd-blog-image-caption">
+            In this scene, vehicles are highlighted blue, people are highlighted in red, and sidewalks are pink.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Similar to how RoadBotics uses deep neural networks for road assessments, here we are training a neural network to produce semantic segmentations of the images we plan to use for a reconstruction. We then use those segmentations to remove unwanted objects from the original images, like cars, clouds, sky, and even distant buildings. In the picture above, there are many categories for objects we are not concerned about for a 3D reconstruction, like pedestrians, vehicles, and buildings. For us, all of these categories can be rolled up into one category of “unwanted objects.” We are interested in reconstructing roads and sidewalks, so our neural network simply needs to identify those areas of the image and then we automatically remove the rest.
+    <br><br>
+    Here’s an example of how this approach works. The first image is an unmodified image taken by a dashboard-mounted smartphone during routine data collection. The second image has had our semantic segmentation model applied to it. Here we assigned plain white to anything the model doesn’t label a road. We thus “masked” out everything that isn’t a road with high certainty.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/scene_segmentation_2.png" class="img-fluid">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/scene_segmentation_3.png" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Almost all the potentially problematic areas (including the moving car) have been masked out, leaving only the road surface. The reconstruction process can now proceed with much less extraneous data, leading to a faster and more robust reconstruction. And as our models improve, the reconstructions also improve!
+    <br><br>
+    Although we have addressed two major problems in this post, there are still a few more that lie ahead. In our next post, we’ll discuss those and what we’re doing to solve them. Stay tuned!
+  </p>
+  <p class="roadbotics-rd-blog-text">
+  </p>
+  <p class="roadbotics-rd-blog-text">
+  </p>
+
+</div>
