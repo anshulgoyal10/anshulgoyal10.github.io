@@ -1,0 +1,113 @@
+---
+layout: default
+title: "- RoadBotics R&D Blog Post 4"
+color_1: #defcf0
+---
+
+<div class="container p-5">
+  <div class="text-muted">
+    <h5>RoadBotics Research & Development Blog Series</h5>
+    <div class="border-bottom pb-2">Anshul Goyal and Miguel Dickson</div>
+  </div>
+  <h1 class="pt-4">3D Reconstruction with a New Data Source</h1>
+  <p class="roadbotics-rd-blog-text">
+    The RoadBotics Team has been hard at work with the recent launch of AgileMapper. In particular, one big new feature of the AgileMapper platform is the ability to use a wider variety of user-provided imagery. 
+    <br><br>
+    Similarly, the R&D team has been hard at work making sure our reconstruction technology will be compatible with these new media sources. We’re happy to report that this work has been largely successful so far! 
+    <br><br>
+    Here are results we can get from one of our most exciting new data sources – GoPro data. This is a slice of video taken by our Product Manager Todd using an off-the-shelf GoPro Max. For those of you familiar with the Pittsburgh area, this bit of video goes from the 40th Street Bridge in Lawrenceville over to Main Street. This video was in no way optimized for high-quality 3D reconstruction, but was a casual GoPro collection taken while driving.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6OaQ_bttj5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    This is what individual frames of that video looks like taken in isolation:
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/fisheye_frame.jpg">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    This kind of image is commonly called a fisheye image because it’s taken with a <a href="https://en.wikipedia.org/wiki/Fisheye_lens">fisheye lens</a>. Our older 3D reconstruction pipeline was built to mostly accommodate standard smartphone videos, so it needed to be adjusted to properly deal with fisheye imagery.
+    <br><br>
+    Once those adjustments were made, we were able to produce 3D reconstructions like the ones in <a href="{% link roadbotics_rd_blog_posts/post_1.html %}">our previous posts</a>. This is what the reconstruction looks like at first:
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center border">
+          <img src="/assets/images/roadbotics_rd_blog_posts/pitt_reconstruction_1.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    You may also recognize some of the artifacts and oddities in this reconstruction from our <a href="{% link roadbotics_rd_blog_posts/post_3.html %}">prior R&D posts</a>, and indeed this reconstruction needs some cleaning up. 
+    <br><br>
+    One of the most straightforward ways we’ve developed to clean up reconstruction models is by what we call a <em>moving envelope</em> process. The idea is pretty simple. We figure out where in the 3D model the camera was at each individual image captured to make the model, and then we define a real-life radius around the camera (for this image, about 20 meters around the camera). Next, we cut out all the points in the reconstruction that fall outside the 20 meter range of any of the cameras. 
+    <br><br>
+    We end up with a 3D model that closely envelops the original camera positions. The result is a reconstruction that similarly follows the path of the original imagery.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center border">
+          <img src="/assets/images/roadbotics_rd_blog_posts/pitt_reconstruction_2.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center border">
+          <img src="/assets/images/roadbotics_rd_blog_posts/pitt_reconstruction_3.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    The reconstruction quality from a GoPro Max is surprisingly good. Here are some of the most remarkable captures we extracted directly from the 3D model.
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center border">
+          <img src="/assets/images/roadbotics_rd_blog_posts/pitt_reconstruction_4.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center border">
+          <img src="/assets/images/roadbotics_rd_blog_posts/pitt_reconstruction_5.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center border">
+          <img src="/assets/images/roadbotics_rd_blog_posts/pitt_reconstruction_6.png">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    What’s more, we can extract some very interesting information using our existing AI models and the reconstruction. Stay tuned for our next blog post where we show you how using 3D models can lead to automated asset extraction!
+  </p>
+</div>
