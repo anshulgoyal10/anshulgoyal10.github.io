@@ -1,0 +1,225 @@
+---
+layout: default
+title: "- RoadBotics R&D Blog Post 6"
+color_1: #defcf0
+---
+
+<div class="container p-5">
+  <div class="text-muted">
+    <h5>RoadBotics Research & Development Blog Series</h5>
+    <div class="border-bottom pb-2">Anshul Goyal and Miguel Dickson &mdash; August 19, 2021</div>
+  </div>
+  <h1 class="pt-4">3D Reconstruction From 360 Videos</h1>
+  <p class="roadbotics-rd-blog-text">
+    Earlier in our blog series, we showed you some initial results regarding the use of GoPro Max fisheye video imagery. We initially planned to show you how to do automated asset extraction using 3D reconstructions, but our team encountered an interesting problem on the way – namely, how to use the marquee feature of the GoPro Max (360 videos) to make 3D reconstructions!
+    <br><br>
+    We’ll be examining part of this 360 video, again featuring Todd:
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/3TSuDSKHASk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    To understand the problem, you need to first understand a little bit about how 360 video capture works – or to be specific, how the GoPro Max captures 360 videos. (There are other approaches, but they tend to be variations on the same theme – namely, simultaneous capture.) 
+    <br><br>
+    The GoPro Max is a combination of two fisheye cameras mounted together. Fisheye lenses can capture wide fields of view, and in this case, the GoPro combines two 180 degree FOV cameras and uses on-camera firmware to synchronize the captures – and thus 360 degree videos! There are a few extra technical details, but for our purposes we will ignore these complications.
+    <br><br>
+    The raw 180 degree field views look roughly like this: 
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/pqYue0O8K0k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    The question is – what kind of data do we want to extract out of this to do the best possible 3D reconstruction of the area?
+    <br><br>
+    One way to approach the problem is to re-project the 360 video data into versions which we can use our existing reconstruction methods on. So for instance, one can transform the 360 video above into this version (often called a cube map):
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/0TcJBV6CYbM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Why is this called a cube map? 
+    <br><br>
+    Imagine you (the camera) are standing in a particular location. Now imagine you were surrounded by a cube. There would be a face of the cube above you, below you, one in front, one behind, one to your left, and one to your right. 
+    <br><br>
+    What we’re doing by transforming the 360 video into a cube map is conceptually the same: at each point in the video, we capture what you would see in those 6 directions around you.  In the above version of the data, the two leftmost cubes of the video are the up and down perspectives, and then the other part of the top row is the forward and right views (which is why they meld nicely), while the other part of the bottom row is the backwards and left views (which is why they also meld nicely).
+    <br><br>
+    We can go from this cube map to 6 separate video streams, as if we were using 6 normal cameras pointed in each of those directions, and then simply use all of those images together in a 3D reconstruction! (Though in practice, we end up dropping some of this data; for this kind of data, the straight-looking-’up’ and straight-looking-’down’ views are mostly useless.)
+    <br><br>
+    And you might think to yourself, okay, that’s simple enough, why not just do that? But the truth is that that particular cube map is only 1 version of the 360 data that we can produce. Looking at the 360 video, you might notice that you are not restricted to simply looking left or right, up or down, but rather that you can continuously move along those axes. And similarly, we can produce cube maps that are similarly moved along these axes (pitch and yaw). 
+    <br><br>
+    So our question then becomes – what is the best view, or set of views, or combination of views that produces the best 3D reconstruction? [As an interesting side note – we ended up also having to apply a mask to clean up the area of the video that shows Todd himself collecting the video! In that respect, it’s kind of like editing out a cameraman you accidentally captured in a big-budget movie.]
+    <br><br>
+    How to get the best reconstruction out of the footage turns out to be an interesting but tractable question. First, we determine a ground truth version of the reconstruction, and then compare the point clouds generated by each method we want to test. 
+    <br><br>
+    So this is the ground truth version of a small section of the 360 video above:
+  </p>
+  <div class="container pt-4 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row align-items-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/gopro_reconstruction_1.png" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Now, let’s compare a few of the most interesting versions we tested. Namely:
+  </p>
+  <div class="container p-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/gopro_reconstruction_2.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 1: include most of the images, no rotations
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/gopro_reconstruction_3.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 2: yaw every cube by 45 degrees
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/gopro_reconstruction_4.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 3: yaw 45, pitch 45
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/gopro_reconstruction_5.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 4: a mixture of 30 degree offsets and 60 degree offsets of yaw/pitch
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    After reconstruction, we compared the point clouds generated by each method, and then judged them by two major metrics: completeness and accuracy. 
+    <br><br>
+    The first, completeness, simply gauges how many relevant 3d points each method captured compared to the ground-truth reconstruction. Obviously by crunching more data, we can improve the completeness metric, but we want to find a reasonably efficient method for using the 3D data. 
+    <br><br>
+    The second, accuracy, gauges how close every point generated by a method was to the ground-truth version of that point. Obviously, an ideal reconstruction would be 100%/100%, but it turns out that the actual reconstruction methods show some obvious and interesting trends.
+    <br><br>
+    First, we see the results for completeness. These are histogram graphs, where 0 error is farthest to left, and so the ideal graph would be a single spike on the left.
+  </p>
+  <div class="container p-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_1_completeness.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 1
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_2_completeness.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 2
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_3_completeness.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 3
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_4_completeness.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 4
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    Here, method 3 is a clear winner! High completeness and very little variation. Next, we examine the accuracy graphs.
+  </p>
+  <div class="container p-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_1_accuracy.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 1
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_2_accuracy.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 2
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_3_accuracy.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 3
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="row align-items-center text-center">
+          <img src="/assets/images/roadbotics_rd_blog_posts/method_4_accuracy.png" class="img-fluid">
+          <p class="roadbotics-rd-blog-image-caption">
+            Method 4
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="roadbotics-rd-blog-text">
+    And here again, method 3 is a clear winner – superb accuracy, and very little high-error tail! And so currently, this method is what we are using to map 360 video into 3D reconstructions.
+    <br><br>
+    As always, stay tuned for the next post in our Research and Development blog series!
+  </p>
+  <p class="roadbotics-rd-blog-text">
+  </p>
+  <p class="roadbotics-rd-blog-text">
+  </p>
+  <p class="roadbotics-rd-blog-text">
+  </p>
+  <p class="roadbotics-rd-blog-text">
+  </p>
+</div>
