@@ -4,128 +4,15 @@ title: "- Home"
 color_1: #defcf0
 ---
 
-<div class="container py-5">
-  <div class="row align-items-center">
-    <div class="col-lg-9 col-md-6">
-      <h1 style="font-family: 'Playfair Display'">Welcome</h1>
-      <p>
-        My name is Anshul Goyal (he/him). I made this website to help me get a job at a startup working on the climate crisis. My core skills are in data science and machine learning, backed by several years of software development.
-        <br>
-        <br>
-        I also have experience doing open-ended technical research at a start-up, applying for federal grants to fund the research, and publicizing the work through talks and blog posts. More details in the Skills section below.
-      </p>
-    </div>
-    <div class="col-lg-3 col-md-6">
-      <img src="/assets/images/headshot.jpg" class="img-fluid">
-    </div>
-  </div>
-</div>
 
-<div class="container">
-  <div class="row align-items-center">
-    <div class="col"><hr></div>
-    <div class="col">
-      <h1 class="text-center" style="font-family: 'Playfair Display'">Skills</h1>
-    </div>
-    <div class="col"><hr></div>
-  </div>
-</div>
+{% include welcome.html %}
 
-<div class="container py-5">
-  <div class="row py-2 align-items-center">
-    <div class="col-md-6">
-      <h2>Data Science & Machine Learning</h2>
-      <p>
-        Since 2018, I have been the main (sole?) developer of machine learning models built at RoadBotics, including the current deep learning model used to grade pavement damage for RoadWay (the company’s flagship pavement assessment product). I have also thoroughly examined RoadBotics’ terabytes of proprietary image+geospatial data to understand and compensate for its biases during model training.
-      </p>
-    </div>
-    <div class="col-md-6">
-      <img src="/assets/images/data_science_picture.png" class="img-fluid">
-    </div>
-  </div>
+<a id="Skills"></a>
+{% include skills.html %}
 
-  <div class="row py-2 align-items-center">
-    <div class="col-md-6">
-      <h2>Software Engineering</h2>
-      <p>
-        To enable my data science work at RoadBotics, I wrote many internal libraries and built several scalable software pipelines on AWS to manipulate terabytes of data flowing through the company. I used popular Python libraries and frameworks for this work, including NumPy, Pandas, SciKit-Learn, Keras+TensorFlow, and Jupyter Notebooks.
-        <br><br>
-        Before my current position at RoadBotics, I worked on software development in several other companies including Apple   and Amazon. See the full list in my Work Experience section.
-      </p>
-    </div>
-    <div class="col-md-6">
-      <img src="/assets/images/software_engineering.png" class="img-fluid border">
-    </div>
-  </div>
-
-  <div class="row py-2 align-items-center">
-    <div class="col-md-6">
-      <h2>Technical Research</h2>
-      <p>
-        Beyond building machine learning models, I did extensive research and prototyping using another class of computer vision algorithms, known as SLAM, to enable (unlock?) more sophisticated analysis of urban environment from our collection of visual data. SLAM is a class of computer vision algorithms that can reconstruct a 3D model of a real-world scene from 2D images of the original scene. Much of this research work is captured in a series of company blog posts written by me and Miguel Dickson, my old boss.
-      </p>
-    </div>
-    <div class="col-md-6">
-      <div class="row align-items-center">
-        <iframe width="800" height="400" src="https://www.youtube-nocookie.com/embed/SDqMEsaofV0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-  </div>
-
-  <div class="row py-2 align-items-center">
-    <div class="col-md-6">
-      <h2>Publicizing Work</h2>
-      <p>
-        Since I was main developer (often the only developer) for RoadBotics’ machine learning and research, I gave a number of presentations and wrote several blog posts to disseminate the results of my work for non-experts, both internally to the rest of the company and externally for RoadBotics’ marketing.
-      </p>
-    </div>
-    <div class="col-md-6">
-      <div class="row align-items-center">
-        <img src="/assets/images/beyond_big_data_2.jpeg" class="img-fluid">
-      </div>
-    </div>
-  </div>
-
-  <div class="row align-items-center py-2">
-    <div class="col-md-6">
-      <h2>Corporate Research Funding</h2>
-      <p>
-        To help RoadBotics fund open-ended technical research and test the viability of future products based, I helped the company apply for two Small Business Innovation Research (SBIR) grants from the federal government. I was the Project Director and Authorized Representative for RoadBotics on both grants.
-        <br><br>
-        The first was a grant from the National Science Foundation to automate sidewalks inventory and assessment for ADA compliance. The second was a grant from the USDA's National Institude of Food & Agriculture to automate urban forest inventory.
-        <br><br>
-        See the grants section below for more information on both of them.
-      </p>
-    </div>
-    <div class="col-md-6">
-      <img src="/assets/images/roadbotics_rd_blog_posts/Screen-Shot-2020-10-20-at-12.png" class="img-fluid border">
-      <!-- <div class="row justify-content-center py-3">
-        <div class="col-4 col-lg-3">
-          <img src="/assets/images/nsf_logo.png" class="img-fluid">
-        </div>
-      </div>
-      <div class="row justify-content-center py-3">
-        <div class="col-12 col-lg-9">
-          <img src="/assets/images/usda_nifa_logo.png" class="img-fluid">
-        </div>
-      </div> -->
-    </div>
-  </div>
-
-  <div class="row py-2 align-items-center">
-    <div class="col-md-6">
-      <h2>Academic Research</h2>
-      <p>
-        Under Dr. Arman Kilic, an academic and practicing cardiothoracic surgeon at the University of Pittsburgh Medical Center, I did research into using classical machine learning models to try to improve predictions of patient outcome after several types of major cardiac surgery. This work led to two academic papers.
-      </p>
-    </div>
-    <div class="col-md-6">
-      <img src="/assets/images/academic_research.png" class="img-fluid border">
-    </div>
-  </div>
-</div>
-
+<a id="TalksAndBlogPosts"></a>
 {% include talks_and_blog_posts.html %}
 
-{% include experience.html %}
+<a id="Grants"></a>
+{% include grants.html %}
 
