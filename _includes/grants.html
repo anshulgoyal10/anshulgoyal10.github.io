@@ -10,34 +10,55 @@
 
 <div class="container py-5">
   <p>
-    Before becoming <a href="https://www.roadbotics.com/2022/07/11/michelin-acquires-roadbotics-a-start-up-specialized-in-road-infrastructure-computer-vision/">a Michelin Group company</a>, RoadBotics was a start-up. In order to pursue ambition AI goals while balancing investor interest in using the company's limited funding to become profitable, I helped RoadBotics apply for two Small Business Innovation Research (SBIR) grants from the federal government.
+    Before becoming <a href="https://www.roadbotics.com/2022/07/11/michelin-acquires-roadbotics-a-start-up-specialized-in-road-infrastructure-computer-vision/">a Michelin Group company</a>, RoadBotics was a start-up with limited funding. In order to pursue ambition AI goals while balancing investors' interest in becoming profitable, I helped RoadBotics apply for two Small Business Innovation Research (SBIR) grants from the federal government.
     <br><br>
     However, before getting into the grants, it's useful to understand the business proposition underlying RoadBotics. In the U.S., many small-to-medium municipalities do not perform regular inspection and inventory of many parts of their outdoor infrastructure (e.g. roads, sidewalks, trees, street signs, etc.) because of how expensive and time consuming it is to do it manually. Although automated solutions exist for inventory and analysis of some parts of public infrastructure (like <a href="https://www.roadscanners.com/products/road-clinic-rdsv/full-rdsv-system-road-data-collection/">scan vans for roads</a>), these services are prohibitively expensive for all except the biggest cities with largest budgets. This means many towns and cities manage their infrastructure on a crisis-by-crisis basis, spending lots money to fix a problem only when it comes becomes a priority because the damage causes citizen outrage or blocks other city services. That pattern could be avoided while spending much less money on upkeep if infrastructure issues are found and patched while they are still small. A good example of this is using sealant to seal cracks on a street, a very fast and cheap operation, that can prevent them from expanding into potholes that require breaking up and repaving entire sections of the road.
     <br><br>
     As a company, RoadBotics' pitch is to develop software-based solutions for infrastructure inspection that are far cheaper than either manual inspections or current automated systems. This was possible by taking the approach of current automated systems (i.e. using sensors to record data at driving speed and analyze it later offline) but moving the burden of analysis from specialized, expensive sensors on a scan van that require frequent maintenance, calibration, and a trained operator to sophisticated computer vision and deep learning algorithms that can provide similar insights from HD smartphone video.
   </p>
-  <div class="row">
-    <div class="col-md-6">
-      <h3>
-        NSF SBIR Phase I: Leveraging non-optimal data for automated sidewalks assessment and inventory.
-      </h3>
-      <p>
-        The aim of this project was to develop a fully automated tool for sidewalk inventory and assessment. Using computer vision techniques such as 3D reconstruction (see <a href="{% link index.html %}#TalksAndBlogPosts">Blog Posts</a> for preliminary work) and deep learning for automtated detection of obstructions and signs of distress (e.g. cracks), we planned to build a software system that required nothing more than HD video and gps from a smartphone or GoPro camera to build a 3D sidewalk inventory for an entire city, and automatically identify areas where the sidewalk did not meet minimum specifications as set by the Americans with Disabilities Act.
-        <br><br>
-        While the proposal was considered highly competitive, it was withdrawn during NSF's review process when RoadBotics became part of the Michelin Group and, therefore, no longer qualified as a Small Business Concern under SBIR rules (a requirement to pursue SBIR awards).
-      </p>
+  <div>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>
+          NSF SBIR Phase I: Leveraging non-optimal data for automated sidewalks assessment and inventory.
+        </h3>
+      </div>
+      <div class="col-md-6">
+        <h3>
+          USDA NIFA SBIR Phase I: Few-Shot Learning for Rapid Urban Forest Inventorying
+        </h3>
+      </div>
     </div>
-    <div class="col-md-6">
-      <h3>
-        USDA NIFA SBIR Phase I: Few-Shot Learning for Rapid Urban Forest Inventorying
-      </h3>
-      <p>
-        One of the many functions of the USDA is to <a href="https://www.fia.fs.usda.gov/">perform regular inventories and analysis of the US's forested lands</a>. Much of this is accompished using remote sensing techniques including arial photography and satellite imagery. While this works well for many natural and rural environments where land use is relatively homogenous, the low resolution of these methods (due to their distance from the surface they are photographing) often makes the same techniques fail on urban environments where trees and parks are mixed in with roads and buildings. Because of this, forest inventories of these areas, often called <em>urban forests</em>, are more diffcult and lead to lower quality data. On top of that, many cities know very little about the trees in their care, rarely keeping inventory of data such as location, species, size, age, and health of their trees.
-        <br><br>
-        The purpose of this project was to develop a fully automated tool for urban forest inventory and assessment. The plan was to use our knowledge of 3D reconstruction (see <a href="{% link index.html %}#TalksAndBlogPosts">Blog Posts</a> for preliminary work) to create a 3D map of the urban forest for a city and then use deep learning to identify the trees in the map, their species, and even basic health issues. Using the captured GPS data from the smartphone (or GoPro), we would scale the 3D map to match the real-world, allowing us to automate physical measurement of the identified trees, such as diameter at breast height (DBH).
-        <br><br>
-        While building a robust system for this task is much easier said than done, if successful it would make it much easier for cities to manage their tree populations. And by combining the data produced by such a system with off-the-shelf models of trees, cities could get an insight into the social and economic benefits of their trees (air pollution reduction, local cooling, storm water management, ground erosion management, carbon sequestration, human health), advocating for the addition of more trees to urban spaces.
-      </p>
+
+    <div class="row text-center">
+      <div class="col-md-6">
+        <img src="/assets/images/roadbotics_rd_blog_posts/Screen-Shot-2020-10-20-at-12.png" class="img-fluid border">
+      </div>
+      <div class="col-md-6">
+        <img src="/assets/images/city_park.jpg" class="img-fluid border">
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          The aim of this project was to develop a fully automated tool for sidewalk inventory and assessment. Using computer vision techniques such as 3D reconstruction (see <a href="{% link index.html %}#TalksAndBlogPosts">Blog Posts</a> for preliminary work) and deep learning for automtated detection of obstructions and signs of distress (e.g. cracks), we planned to build a software system that required nothing more than HD video and gps from a smartphone or GoPro camera to build a 3D sidewalk inventory for an entire city, and automatically identify areas where the sidewalk did not meet minimum specifications as set by the Americans with Disabilities Act.
+          <br><br>
+          While the proposal was considered highly competitive, it was withdrawn during NSF's review process when RoadBotics became part of the Michelin Group and, therefore, no longer qualified as a Small Business Concern under SBIR rules (a requirement to pursue SBIR awards).
+        </p>
+      </div>
+      <div class="col-md-6">
+        <p>
+          One of the many functions of the USDA is to <a href="https://www.fia.fs.usda.gov/">perform regular inventories and analysis of the US's forested lands</a>. Much of this is accompished using remote sensing techniques including arial photography and satellite imagery. While this works well for many natural and rural environments where land use is relatively homogenous, the low resolution of these methods (due to their distance from the surface they are photographing) often makes the same techniques fail on urban environments where trees and parks are mixed in with roads and buildings. Because of this, forest inventories of these areas, often called <em>urban forests</em>, are more diffcult and lead to lower quality data. On top of that, many cities know very little about the trees in their care, rarely keeping inventory of data such as location, species, size, age, and health of their trees.
+          <br><br>
+          The purpose of this project was to develop a fully automated tool for urban forest inventory and assessment. The plan was to use our knowledge of 3D reconstruction (see <a href="{% link index.html %}#TalksAndBlogPosts">Blog Posts</a> for preliminary work) to create a 3D map of the urban forest for a city and then use deep learning to identify the trees in the map, their species, and even basic health issues. Using the captured GPS data from the smartphone (or GoPro), we would scale the 3D map to match the real-world, allowing us to automate physical measurement of the identified trees, such as diameter at breast height (DBH).
+          <br><br>
+          While building a robust system for this task is much easier said than done, if successful it would make it much easier for cities to manage their tree populations. And by combining the data produced by such a system with off-the-shelf models of trees, cities could get an insight into the social and economic benefits of their trees (air pollution reduction, local cooling, storm water management, ground erosion management, carbon sequestration, human health), advocating for the addition of more trees to urban spaces.
+          <br><br>
+          The proposal was considered meritous and RoadBotics was awarded the grant by the USDA. However, soon after when RoadBotics became part of the Michelin Group, it no longer qualified as a Small Business Concern under SBIR rules (a requirement to pursue SBIR awards) and, therefore, was no longer allowed to continue the project.
+        </p>
+      </div>
+    </div>
+
   </div>
 </div>
