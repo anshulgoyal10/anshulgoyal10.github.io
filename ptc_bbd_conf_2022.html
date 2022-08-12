@@ -1,0 +1,96 @@
+Hi my name is Anshul Goya. I’m a data scientist at RoadBotics. We’re a Pittsburgh based startup spun out of CMU. Today I’m going to be talking about High Resolution Mapping Using Low Cost Sensors, mainly smartphones, in order to do 3D reconstructions, which some of you may be familiar with, but we’ll go over that in a little bit.
+
+I just want to thank the Pittsburg Tech Council for hosting us and you all for attending.
+
+[next slide]
+Okay so, we’re just gonna go over a couple of things. Probably going to talk a little bit quickly, so that we’ll hopefully have some time for questions at the end.
+
+So we’re going to talk about what are 3D reconstructions, why do we want to create them since they are a computationally intensive process, what are the methods that we used to create them, and what can you do once you have a 3D reconstruction.
+
+And just to give you a little bit of background, RoadBotics is a city asset management company. We use ML and computer vision to allow cities to track their assets (roads, street signs, fire 
+Hydrants, etc.) and make that they are maintained, know where they are, know their condition from year-to-year, and that we fix them, make sure they stay in good condition. So a lot of this is motivated based on the idea of mapping for cities, but also applies to firms that have physical assets as well.
+
+[next slide]
+So that is 3D reconstruction? Generally it is a real world object or scene that has been reconstructed as a 3D model in a computer. That where the “reconstruction” in 3D reconstruction comes from. It is construction a 3D model from an existing object in the real world. This is sometimes called a “digital twin.” The video here on the right [Nvidia video] shows a completely synthetic model. The video is from Nvidia to show off the power of one of their GPUs.
+
+A reconstruction is basically the idea of creating a model like the one from the video, but from an actual scene instead of an artist’s creation.
+
+[next slide]
+This is an example of a parking lot in Pittsburgh that we reconstructed using just a smartphone video. I actually went out myself and just took video of the whole parking lot. You can see right now it’s a point cloud, meaning a bunch of points sitting in a 3D space, each with a color so that you can kind of get an idea of all the surfaces and shapes. Then it goes into a mesh, which can be described as a “water-tight surface.” You basically connect all the points into a lattice structure to create the mesh. The mesh is the end result of what you want to get out of a 3D reconstruction..
+
+[next slide]
+Here are some more examples of 3D reconstructions. These are Fisk and Butler street in Pittsburgh. They were collected using a GoPro camera. We had one of our engineers just take the camera and hold it while they walked down Butler Street and up Fisk. Then we created a full 3D model just from the video collected by the GoPro MAX 360 degree camera which can collect front, back, and side views all at once.
+
+[next slide]
+Here is a short video so that you can hopefully see and make some geometric sense of the street as the model is manipulated.
+
+[next slide]
+And as a final, grand example of a 3D reconstruction, this is a part of Rome. Perhaps you can recognize the building on the far right is the Colosseum. This is not a reconstruction we created. I would love to claim that, but this was created by the authors of an open source software framework called COLMAP that we use. In order to show off the power of the software, they downloaded a bunch of public tourist photos from the web, gave them to COLMAP, and they were able to generate a 3D model of a large section of Rome, just using the images alone. This is meant to show the possibility of what we can create when were talking about 3D reconstructions / 3D modeling using only 2D image data, as in just smartphone videos or photos, or a GoPro, or really any kind of consumer grade video.
+
+[next slide]
+So why go through the process of creating these 3D reconstructions? We have a bunch of 2D images. We can use those to look at assets directly and maintain them. What additional value do we get by creating a 3D model?
+
+The main thing is that it allows computers to understand and to interpret the world the same way that people do and measure the same way that people do. With a 3D model you can consider using AI or even looking through it yourself and finding all of the physical objects that are important to you, your company, your city. And being able to monitor them and keep track of them, detect changes in their shape or location.
+
+For us as a company, we were particularly interested in applying this to ADA compliance, allowing cities to record video (i.e. take a smartphone, mount it in their car, and drive around the whole road network in a few days) and then do a full reconstruction of all of the sidewalks, and then be able to automatically have a computer sort through tens or hundreds of miles of sidewalk to find where they are not ADA compliant. Things like the slope is too steep or the sidewalk itself is too narrow because of a power line pole that has been placed in the middle of it. It’s meant to go through all the data and figure out what are the problem areas that people actually need to focus on.
+
+[next slide]
+This is slide is just showing the same thing I was talking about, i.e. continuously monitoring physical assets.
+
+[next slide]
+So how do you create a 3D reconstruction? There are a couple of different methods for it. Generally, these methods will fall into one of three categories: structured light, light detection and ranging (LiDAR), and simultaneous localization and mapping. There’s also a forth method not mentioned here, deep neural networks (DNNs) that have come into vogue for creating 3D models. All of these methods have different pros and cons.
+
+[next slide]
+At RoadBotics, we have chosen to use the last method on the slide, SLAM. The other two methods have their uses. An example use case of structured light is FaceID on iPhones. LiDAR is used by autonomous vehicles to map their environment. However, both require specialized hardware to work, which is their main drawback. That required hardware can be very expensive to purchase and maintain. As a company that is trying to make our solutions as affordable as possible and easy to use for city governments, we want to use hardware that is easily available and low cost.
+
+The graphic here shows the basics of how a LiDAR scanner works. Both LiDAR and structured light require a special light source to illuminate the scene and a separate camera to record the illuminated scene. SLAM only requires the camera part and simply uses the ambient light in the scene to figure out the 3D structure. This does mean that a lot of the complexity of figuring out the 3D structure of the scene is moved from the sensor itself to the computation on the back end.
+
+[next slide]
+Let’s talk a little bit about how SLAM works. SLAM works in two major steps. Using a bunch of photos of the object or scene that you want to reconstruct, it looks through all those photos and it tries to match up which areas of the scene have been captured in more than one photo.
+
+On the hand-drawn illustration on the slide, you can see a building facade and that we have three photos of it. The left photo and the center photo both see the left half of the building. The right photo and the center photo both see the right half of the building. So SLAM first step is basically to figure this out. Is usually does this by focusing on particular points in each image that would be easy to find in multiple photos, like the corners of the building (highlighted by the yellow dots). Once it finds these matching points between the photos, it solves a set of linear and non-linear equations to do
+1. Localization: Find the location and pose of the camera for each photo. Pose here means the orientation of the camera.
+2. Mapping: Find the 3D location of the points it found and matched between the photos.
+
+[next slide]
+This basically shows how SLAM works in more detail. I’m going to skip over this for now due to time-constraint, but we can come back to it if there are questions about it.
+
+[next slide]
+So why do we even care? Especially since SLAM is a computationally intensive algorithm that doesn’t always work. When it does work, it allows you to physical measure assets automatically (width, height, depth, etc.).
+
+[next slide]
+Another application, one that we’ve been working on at RoadBotics is geolocation of assets. Smartphones and GoPros have GPS built in. This is great because you can collect a GPS trace while recording video from the device and then plot the path of the device on a map. However, if you take a video of an asset, for example a pedestrian crossing sign, the GPS stamp of the part of the video where you see the asset may be many tens of feet away from the asset or even further. We can potentially determine a closer, more precise GPS location of the asset.
+
+On this slide, the photos come from a video recorded by us, with a smartphone mounted in dash of a vehicle as we drive by the pedestrian crossing sign. We ran an AI model on the video to identify street signs and it found these seven frames with the same pedestrian crossing sign.
+
+[next slide]
+This video shows a 3D reconstruction we created from the part of the recorded video around those frames with the street sign.
+
+[next slide]
+This is a snapshot from the video in the previous slide and in the reconstruction is the reconstructed pedestrian crossing sign. This means we know the location of the sign in the 3D reconstruction, and we know the path of the smartphone in the real world because of the recorded GPS trace.
+
+[next slide]
+So we can plot the path of the smartphone on a map and then use the relative position of the pedestrian crossing sign in the reconstruction to pin point where that sign is in the real world, which much higher precision than just using the GPS location of the phone when it saw the sign. We know that we can find the sign there, just to the side of the road.
+
+[next slide]
+One last application of that we’ve been working on is something we call scene change detection. In this case we have two sets of photos we took of a parking lot outside of a Bed, Bath & Beyond. In one set of photos, we just have an empty parking lot. In the second set of photos, we have a car and a cardboard box that we’ve place in the parking lot. With separate reconstructions of both sets of photos, we can align them in 3D space and then do a point-by-point comparison of the two point clouds to automatically find what in the scene has changed. We color-coded the points in the second reconstruction (the one with the car and box) based on their distance to the nearest point in the first reconstruction (the empty parking lot). This highlights the car very well and also highlights the box (in a light-blue / green on the sidewalk). This is a relatively simple example, but you can imagine how useful this could be in a warehouse or other space populated with many objects (such as a city street), and you want to find out what has been moved or changed between two different time points.
+
+[next slide]
+So using SLAM to create a reconstruction is not a perfect process. It is computationally intensive, sometimes taking days to create a single reconstruction, and there is some amount of randomness in the process, meaning it is possible to get a bad (i.e. physically impossible or incorrect) reconstruction.
+
+The issue show here is called loop-closer. When you go along a path twice as part of a loop, sometimes, due to small incremental drift while moving along the path, you end up at the start of the loop in the real world, but the reconstruction does not place you at the start of the loop. This is an issue we are actively working on.
+
+[next slide]
+Another issue has to do with the way modern camera shutters work. Basically all modern smartphones can record HD video and many can record 4K video at this point. In order to handle these high resolutions, they use a type of shutter known as a “rolling shutter.” This means they “roll” through the pixels on the image sensor, reading them row-by-row in order to amortize the flow of data coming from the image sensor. This is an alternative to the more traditional “global shutter” where all the pixels are read out at once, which requires more expensive hardware to implement.
+
+The video recorded by a rolling-shutter camera is usually not a problem, since we don’t notice it as humans when we playback the video for ourselves.
+
+[next slide]
+However, when you record something in the video that is moving or changing at a speed comparable to the speed of the rolling shutter, you can end up getting some pretty strange results, especially when you freeze the video at a single frame and look at it for more than a second.
+
+[next slide]
+Although we as humans don’t see it during video playback, it’s not hard to find many real world examples of this warping effect. And when you give this to a computer vision algorithm like SLAM, it ends up giving you bad results.
+
+But in general, using SLAM for 3D reconstructions seems like a very promising area of research for us and we are excited by our developing applications for it.
+
+[end - questions]
