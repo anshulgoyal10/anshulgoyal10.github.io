@@ -111,7 +111,7 @@
                         <h1 class="s-intro__text-huge animate-on-load">
                             Welcome
                         </h1>
-                        <h3 class="animate-on-load">Data Scientist <span>+</span> ML Engineer</h3>
+                        <h3 class="animate-on-load">Data Scientist <span style="color: var(--color-body)">+</span> ML Engineer</h3>
                     </div>
 
                     <div class="s-intro__bg"></div>
@@ -146,17 +146,18 @@
 
             <div class="s-about__block s-about__career">
 
-                <!-- <div class="row s-about__career-header">
+                <div class="row s-about__career-header">
                     <div class="column lg-12">
-                        <h2 class="text-pretitle">Skills</h2>
+                        <h2 class="text-pretitle">Skills & Talks</h2>
     
-                        <p class="text-huge-title">
+                        <!-- <p class="text-huge-title">
                         Here is my education, work experience, & some skills I've got.
-                        </p>
+                        </p> -->
                     </div>
-                </div> -->
+                </div>
 
-                <div class="row s-about__timeline" data-animate-block>
+                <!-- <div class="row s-about__timeline" data-animate-block> -->
+                <div class="row" data-animate-block>
                     <div class="column stack-on-900 s-about__timeline-section" data-animate-el>
     
                         <h2 class="text-subtitle">
@@ -341,14 +342,70 @@
     
                 </div> <!-- end about__timeline -->
 
-                <div class="row s-about__skills" data-animate-block>
-                    <div class="column lg-12" data-animate-el>
+                <div class="row s-about__timeline" data-animate-block>
+                    <div class="column lg-12 s-about__timeline-section" data-animate-el>
     
                         <h2 class="text-subtitle">
-                            Skills & Expertise
+                            Talks
                         </h2>
+
+                        <div class="timeline">
     
-                        <ul class="skill-bars">
+                            <div class="timeline__block">
+                                <div class="row">
+                                    <div class="column lg-6">
+                                        <iframe width="100%" height="300" src="https://www.youtube-nocookie.com/embed/Z2Gu2Gz_9B4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                    <div class="column lg-6">
+                                        <div class="timeline__bullet"></div>
+                                        <div class="timeline__header">
+                                            <h4 class="timeline__title">Introduction to Machine Learning Webinar</h4>
+                                            <!-- <h5 class="timeline__meta">October 2020</h5> -->
+                                            <p class="timeline__timeframe">October 2020</p>
+                                        </div>
+                                        <div class="timeline__desc">
+                                            <p>
+                                            For RoadBotics, in order to help the customers understand the technology we were using to grade their roads, I gave this presentation to provide a basic foundation of machine learning, with a slight focus on deep learning. Topics covered are:
+                                                <ol>
+                                                  <li>What is machine learning?</li>
+                                                  <li>How models make choices: Regression vs Classification</li>
+                                                  <li>What makes a model a deep learning model?</li>
+                                                  <li>How do deep learning models “learn”?</li>
+                                                  <li>Advanced techniques used to train models</li>
+                                                  <li>What mistakes do models make and how do we evaluate them?</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="timeline__block">
+                                <div class="row">
+                                    <div class="column lg-6">
+                                        <img src="images/beyond_big_data_2.jpeg" class="img-fluid">
+                                    </div>
+                                    <div class="column lg-6">
+                                        <div class="timeline__bullet"></div>
+                                        <div class="timeline__header">
+                                            <h4 class="timeline__title">High Resolution Mapping Through Low Cost Sensors & 3D Reconstruction</h4>
+                                            <!-- <h5 class="timeline__meta">October 2020</h5> -->
+                                            <p class="timeline__timeframe">February 3, 2022</p>
+                                        </div>
+                                        <div class="timeline__desc">
+                                            <p>
+                                            At Pittsburgh Technology Council's Beyond Big Data 2022 Conference, I attended on behalf of RoadBotics and gave a presentation about the latest research work at the company, done by myself, Miguel Dickson, and Christoph Mertz. Much of the presentation is also covered in our blog posts, but some of the work presented at the end was new.
+                                            <br><br>
+                                            Due to the poor quality of my recording, I have created a blog post version of the presentation <a href="#">here</a>.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+    
+                        <!-- <ul class="skill-bars">
                             <li>
                             <div class="progress percent95"></div>
                             <strong>HTML & SCSS</strong>
@@ -381,31 +438,25 @@
                             <div class="progress percent75"></div>
                             <strong>Illustrator</strong>
                             </li>
-                        </ul>
+                        </ul> -->
     
                     </div>
                 </div> <!-- end s-about__skills -->
 
-                <div class="row s-about__clients" data-animate-block>
+                <!-- <div class="row s-about__clients" data-animate-block>
                     <div class="column lg-12" data-animate-el>
     
-                        <h2 class="text-pretitle">Selected Clients</h2>
+                        <h2 class="text-pretitle">Previous Experience</h2>
     
                         <ul class="clients-list text-huge-title">
-                            <li><a href="#0">Microsoft</a></li>
+                            <li><a href="#0">Key Tech Inc.</a></li>
+                            <li><a href="#0">Apple</a></li>
                             <li><a href="#0">Amazon</a></li>
-                            <li><a href="#0">Solana</a></li>
-                            <li><a href="#0">Nike</a></li>
-                            <li><a href="#0">Adidas</a></li>
-                            <li><a href="#0">Polkadot</a></li>
-                            <li><a href="#0">Google</a></li>
-                            <li><a href="#0">Atom</a></li>
-                            <li><a href="#0">Square</a></li>
-                            <li><a href="#0">Brave</a></li>
+                            <li><a href="#0">Bentley Systems</a></li>
                         </ul>
     
                     </div>
-                </div> <!-- end s-about__clients-->
+                </div> --> <!-- end s-about__clients-->
 
             </div> <!-- end s-about__career -->
 
