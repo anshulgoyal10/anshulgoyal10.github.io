@@ -3643,6 +3643,72 @@ img.u-pull-left {
 }
 
 /* ------------------------------------------------------------------- 
+ * ## blog post list
+ * ------------------------------------------------------------------- */
+
+.blog-post-item__thumb a {
+    display    : block;
+    position   : relative;
+    overflow   : hidden;
+    transition : all, .5s;
+}
+
+.blog-post-item__thumb a::before {
+    z-index          : 1;
+    content          : "";
+    display          : block;
+    background-color : rgba(0, 0, 0, 0.5);
+    opacity          : 0;
+    visibility       : hidden;
+    position         : absolute;
+    top              : 0;
+    left             : 0;
+    right            : 0;
+    bottom           : 0;
+    width            : 100%;
+    height           : 100%;
+    transition       : all, .5s;
+}
+
+.blog-post-item__thumb .blog-post-item__thumb-link img {
+    margin     : 0;
+    transition : all, .5s;
+}
+
+.blog-post-item__thumb:hover .blog-post-item__thumb-link img {
+    transform : scale(1.05);
+}
+
+.blog-post-item__thumb:hover .blog-post-item__thumb-link::before {
+    opacity    : 1;
+    visibility : visible;
+}
+
+/* blog post info
+ */
+.blog-post-item__info {
+    padding : var(--vspace-0_75) 0 var(--vspace-0_5);
+}
+
+.blog-post-item__meta {
+    font-family   : var(--font-1);
+    font-size     : var(--text-sm);
+    line-height   : 1.5;
+    margin-bottom : 0.2rem;
+    color         : var(--color-gray-8);
+}
+
+.blog-post-item__title {
+    margin     : 0;
+    color      : var(--color-1);
+    transition : all, 0.5s;
+}
+
+.blog-post-item:hover .blog-post-item__title {
+    color : var(--color-text);
+}
+
+/* ------------------------------------------------------------------- 
  * ## portfolio list
  * ------------------------------------------------------------------- */
 .folio-list {
