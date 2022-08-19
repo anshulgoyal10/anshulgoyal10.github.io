@@ -3701,12 +3701,12 @@ img.u-pull-left {
 
 .blog-post-item__title {
     margin     : 0;
-    color      : var(--color-1);
+    color      : var(--color-text);
     transition : all, 0.5s;
 }
 
 .blog-post-item:hover .blog-post-item__title {
-    color : var(--color-text);
+    color : var(--color-1);
 }
 
 /* ------------------------------------------------------------------- 
